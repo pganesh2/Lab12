@@ -3,6 +3,9 @@ package edu.illinois.cs.cs125.lab12;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 /**
  * Main class for our UI design lab.
@@ -38,8 +42,18 @@ public final class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        startAPICall();
+//        startAPICall();
+        final Button refreshMe = findViewById(R.id.get_weather);
+        refreshMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Log.d(TAG, "Refresh button Clicked!");
+                startAPICall();
+            }
+        });
+
     }
+
 
     /**
      * Run when this activity is no longer visible.
@@ -52,7 +66,7 @@ public final class MainActivity extends AppCompatActivity {
     /**
      * Make a call to the weather API.
      */
-    void startAPICall() {
+    public void startAPICall() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
@@ -64,6 +78,9 @@ public final class MainActivity extends AppCompatActivity {
                         public void onResponse(final JSONObject response) {
                             try {
                                 Log.d(TAG, response.toString(2));
+                                String currentWeather = response.toString(2);
+                                final TextView stuff = (TextView) findViewById(R.id.textView);
+                                stuff.setText(currentWeather);
                             } catch (JSONException ignored) { }
                         }
                     }, new Response.ErrorListener() {
