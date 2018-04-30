@@ -30,6 +30,9 @@ android {
             buildConfigField "String", "API_KEY", "\"" + getApiKey() +"\""
         }
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'API_KEY', "\"blah blah\""
+    }
 }
 
 dependencies {
